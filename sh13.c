@@ -63,6 +63,11 @@ void ajouter_nom(char gbuffer[256], char gNames[4][55]){ ///permet de recopier l
 	return;
 }
 
+void ajouter_cartes(char gbuffer[256], int tableCartes[4][8]){
+
+
+}
+
 /////////////////////
 
 void *fn_serveur_tcp(void *arg)
@@ -270,9 +275,9 @@ int main(int argc, char ** argv)
 				{
 					sprintf(sendBuffer,"C %s %d %s ",gClientIpAddress,gClientPort,gName);
 					//printf("%s",sendBuffer);
-					sendMessageToServer(gServerIpAddress, gServerPort, sendBuffer);
 					// RAJOUTER DU CODE ICI
-
+					sendMessageToServer(gServerIpAddress, gServerPort, sendBuffer);
+					////////////
 					connectEnabled=0;
 				}
 				else if ((mx>=0) && (mx<200) && (my>=90) && (my<330))
@@ -342,25 +347,43 @@ int main(int argc, char ** argv)
 		{
 			// Message 'I' : le joueur recoit son Id
 			case 'I':
+				///////////Code ajouté
 				gId = atoi(gbuffer+1); 
 				printf("id = %d\n", gId);
+				///////////
 
 				break;
 			// Message 'L' : le joueur recoit la liste des joueurs
 			case 'L':
+				///////////Code ajouté
 				printf("liste des joueurs : %s\n",gbuffer);
 				ajouter_nom(gbuffer+2,gNames);
 				printf("0 : %s, 1 : %s, 2 :  %s, 3 : %s\n",gNames[0],gNames[1],gNames[2],gNames[3]);
+				///////////
 				break;
 			// Message 'D' : le joueur recoit ses trois cartes
 			case 'D':
 				// RAJOUTER DU CODE ICI
+				printf("Tes cartes : %s\n", gbuffer);
+				b[0] = atoi(gbuffer+2);
+				b[1] = atoi(gbuffer+4);
+				b[2] = atoi(gbuffer+6);
+				////////////////////////////
+				printf("",);
 
 				break;
 			// Message 'M' : le joueur recoit le n° du joueur courant
 			// Cela permet d'affecter goEnabled pour autoriser l'affichage du bouton go
 			case 'M':
 				// RAJOUTER DU CODE ICI
+				printf("joueurCourant : %s",gbuffer);
+				if (atoi(gbuffer+2) == gId){
+					goEnabled == 1;
+				}
+				else{
+					goEnabled = 0;
+				}
+				////////////////////////
 
 				break;
 			// Message 'V' : le joueur recoit une valeur de tableCartes

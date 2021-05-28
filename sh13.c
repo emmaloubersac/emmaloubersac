@@ -63,10 +63,6 @@ void ajouter_nom(char gbuffer[256], char gNames[4][55]){ ///permet de recopier l
 	return;
 }
 
-void ajouter_cartes(char gbuffer[256], int tableCartes[4][8]){
-
-
-}
 
 /////////////////////
 
@@ -368,8 +364,16 @@ int main(int argc, char ** argv)
 				b[0] = atoi(gbuffer+2);
 				b[1] = atoi(gbuffer+4);
 				b[2] = atoi(gbuffer+6);
+				tableCartes[gId][0] = atoi(gbuffer+8);
+				tableCartes[gId][1] = atoi(gbuffer+10);
+				tableCartes[gId][2] = atoi(gbuffer+12);
+				tableCartes[gId][3] = atoi(gbuffer+14);
+				tableCartes[gId][4] = atoi(gbuffer+16);
+				tableCartes[gId][5] = atoi(gbuffer+18);
+				tableCartes[gId][6] = atoi(gbuffer+20);
+				tableCartes[gId][7] = atoi(gbuffer+22);
+
 				////////////////////////////
-				printf("",);
 
 				break;
 			// Message 'M' : le joueur recoit le n° du joueur courant
@@ -377,8 +381,8 @@ int main(int argc, char ** argv)
 			case 'M':
 				// RAJOUTER DU CODE ICI
 				printf("joueurCourant : %s",gbuffer);
-				if (atoi(gbuffer+2) == gId){
-					goEnabled == 1;
+				if (gId == atoi(gbuffer+2)){
+					goEnabled = 1;
 				}
 				else{
 					goEnabled = 0;

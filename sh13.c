@@ -268,7 +268,7 @@ int main(int argc, char ** argv)
 				//printf("mx=%d my=%d\n",mx,my);
 				if ((mx<200) && (my<50) && (connectEnabled==1))
 				{
-					sprintf(sendBuffer,"C %s %d %s",gClientIpAddress,gClientPort,gName);
+					sprintf(sendBuffer,"C %s %d %s ",gClientIpAddress,gClientPort,gName);
 					//printf("%s",sendBuffer);
 					sendMessageToServer(gServerIpAddress, gServerPort, sendBuffer);
 					// RAJOUTER DU CODE ICI
@@ -349,8 +349,8 @@ int main(int argc, char ** argv)
 			// Message 'L' : le joueur recoit la liste des joueurs
 			case 'L':
 				printf("liste des joueurs : %s\n",gbuffer);
-				strcpy(gNames[id],gName);
 				ajouter_nom(gbuffer+2,gNames);
+				printf("0 : %s, 1 : %s, 2 :  %s, 3 : %s\n",gNames[0],gNames[1],gNames[2],gNames[3]);
 				break;
 			// Message 'D' : le joueur recoit ses trois cartes
 			case 'D':

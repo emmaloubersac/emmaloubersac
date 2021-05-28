@@ -330,8 +330,16 @@ int main(int argc, char *argv[])
 
 					// On envoie enfin un message a tout le monde pour definir qui est le joueur courant=0
 					// RAJOUTER DU CODE ICI
+					sprintf(reply, "M %d",joueurCourant);
+					broadcastMessage(reply);
+					if (joueurCourant < 3){
+						joueurCourant++;
+					}
+					else{
+						joueurCourant = 0;
+					}
 
-                                        fsmServer=1;
+                    fsmServer=1;
 				}
 				break;
                 }

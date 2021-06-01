@@ -25,12 +25,14 @@ char *nomcartes[]=
   "inspector Hopkins", "Sherlock Holmes", "John Watson", "Mycroft Holmes",
   "Mrs. Hudson", "Mary Morstan", "James Moriarty"};
 int joueurCourant;
+int ind_g;
+int guilt;
 
 void error(const char *msg)
 {
     perror(msg);
     exit(1);
-}
+} 
 
 void melangerDeck()
 {
@@ -356,14 +358,67 @@ int main(int argc, char *argv[])
 	{
 		switch (buffer[0])
 		{
-                	case 'G':
+        	case 'G':
 				// RAJOUTER DU CODE ICI
+				ind_g = atoi(buffer+2);
+				guilt = atoi(buffer+4);
+				if (guilt == deck[12]){
+					sprintf(reply,"Q victoire de %d",ind_g);
+					broadcastMessage(reply);
+				}
+				else{
+					sprintf(reply,"P le joueur %d c'est trompé !",ind_g);
+					broadcastMessage(reply);
+				}
+				sprintf(reply, "M %d",joueurCourant);
+				broadcastMessage(reply);
+				if (joueurCourant < 3){
+						joueurCourant++;
+					}
+					else{
+						joueurCourant = 0;
+					}
+				//broadcastMessage(reply);
+				//////////////////////
 				break;
-                	case 'O':
+        	case 'O':
 				// RAJOUTER DU CODE ICI
+				for (int i = 0; i < 4; i++){
+					int ind = atoi(buffer+4);
+					if (tableCartes[i][ind] == 0){
+						sprintf(reply,"V %d %d %d",i,ind, tableCartes[i][ind]);
+						broadcastMessage(reply);
+					}
+					else{
+						sprintf(reply,"V %d %d %d",i,ind, 100);
+						broadcastMessage(reply);
+					}
+				}
+				sprintf(reply, "M %d",joueurCourant);
+				broadcastMessage(reply);
+				if (joueurCourant < 3){
+						joueurCourant++;
+					}
+					else{
+						joueurCourant = 0;
+					}
+				///////////////////////
 				break;
 			case 'S':
 				// RAJOUTER DU CODE ICI
+				ind_g = atoi(buffer+4);
+				guilt = atoi(buffer+6);
+				sprintf(reply,"V %d %d %d",ind_g, guilt, tableCartes[ind_g][guilt]);
+				broadcastMessage(reply);
+				sprintf(reply, "M %d",joueurCourant);
+				broadcastMessage(reply);
+				if (joueurCourant < 3){
+						joueurCourant++;
+					}
+					else{
+						joueurCourant = 0;
+					}
+				//////////////////
 				break;
                 	default:
                         	break;

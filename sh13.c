@@ -39,6 +39,8 @@ char *nbnoms[]={"Sebastian Moran", "irene Adler", "inspector Lestrade",
 
 volatile int synchro; //permet de prevenir le grphique qu'un message est arrivé dans le réseau
 
+
+
 //////////////////Fonction ajouter par Emma
 void ajouter_nom(char gbuffer[256], char gNames[4][55]){ ///permet de recopier les noms envoyer par le buffer dans gNanes
 	int i = 0;
@@ -185,7 +187,7 @@ int main(int argc, char ** argv)
  
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 
-    SDL_Surface *deck[13],*objet[8],*gobutton,*connectbutton;
+    SDL_Surface *deck[13],*objet[8],*gobutton,*connectbutton,*rectangle_blanc;
 
 	deck[0] = IMG_Load("SH13_0.png");
 	deck[1] = IMG_Load("SH13_1.png");
@@ -212,6 +214,7 @@ int main(int argc, char ** argv)
 
 	gobutton = IMG_Load("gobutton.png");
 	connectbutton = IMG_Load("connectbutton.png");
+	rectangle_blanc = IMG_Load("rectangle-blanc.png");
 
 	strcpy(gNames[0],"-");
 	strcpy(gNames[1],"-");
@@ -245,6 +248,7 @@ int main(int argc, char ** argv)
 
     texture_gobutton = SDL_CreateTextureFromSurface(renderer, gobutton);
     texture_connectbutton = SDL_CreateTextureFromSurface(renderer, connectbutton);
+	texture_rectangle_blanc = SDL_CreateTextureFromSurface(renderer,rectangle_blanc);
 
     TTF_Font* Sans = TTF_OpenFont("sans.ttf", 15); 
     printf("Sans=%p\n",Sans);
@@ -303,21 +307,27 @@ int main(int argc, char ** argv)
 					if (guiltSel!=-1)
 					{
 						sprintf(sendBuffer,"G %d %d",gId, guiltSel);
-
+						///////////
+						printf("%s\n",sendBuffer);
+						sendMessageToServer(gServerIpAddress,gServerPort,sendBuffer);
 					// RAJOUTER DU CODE ICI
 
 					}
 					else if ((objetSel!=-1) && (joueurSel==-1))
 					{
 						sprintf(sendBuffer,"O %d %d",gId, objetSel);
-
+						////////////
+						printf("%s\n",sendBuffer);
+						sendMessageToServer(gServerIpAddress,gServerPort,sendBuffer);
 					// RAJOUTER DU CODE ICI
 
 					}
 					else if ((objetSel!=-1) && (joueurSel!=-1))
 					{
 						sprintf(sendBuffer,"S %d %d %d",gId, joueurSel,objetSel);
-
+						/////////
+						printf("%s\n",sendBuffer);
+						sendMessageToServer(gServerIpAddress,gServerPort,sendBuffer);
 					// RAJOUTER DU CODE ICI
 
 					}
@@ -393,7 +403,20 @@ int main(int argc, char ** argv)
 			// Message 'V' : le joueur recoit une valeur de tableCartes
 			case 'V':
 				// RAJOUTER DU CODE ICI
-
+				printf("%s\n",gbuffer);
+				int ind = atoi(gbuffer+2);
+				int obj = atoi(gbuffer+4);
+				if (ind != gId){
+					tableCartes[ind][obj] = atoi(gbuffer+6);
+				}
+				printf("%d\n",tableCartes[ind][obj]);
+				////////////
+				break;
+			case 'Q':
+				printf("%s",gbuffer);
+				break;
+			case 'P':
+				printf("%s",gbuffer);
 				break;
 		}
 		synchro=0;
